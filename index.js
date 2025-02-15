@@ -1,21 +1,50 @@
 const { Telegraf } = require('telegraf');
-require('dotenv').config(); // For loading .env file
+const axios = require('axios');
+require('dotenv').config();
 
+// Create bot instance using your token
 const bot = new Telegraf(process.env.BOT_TOKEN);
 
-// When a user starts the bot
-bot.start((ctx) => ctx.reply('Welcome! Please send me any message, and I will give you a phishing link and your chat ID.'));
-
-// When the bot receives a message from the user
-bot.on('text', (ctx) => {
-  const chatId = ctx.chat.id; // Get the user's chat ID
-  console.log(`Received message from Chat ID: ${chatId}`);
-  
-  // Respond with the user's chat ID and phishing link
-  ctx.reply(`Your chat ID is: ${chatId}\nHere is your phishing link: https://is.gd/VLcyev`);
-  
-  // Optionally, log chat ID to save for further use (e.g., in a file or database)
+// Start command
+bot.start((ctx) => {
+  ctx.reply('Hello! I am GwarGura bot. Let me know how I can assist you!');
 });
 
-// Launch the bot
+// Respond with an image when the user sends a photo
+bot.on('photo', (ctx) => {
+  ctx.replyWithPhoto('https://raw.githubusercontent.com/Chanuka-KL/GawrGura-bot/refs/heads/main/c73ba4cc39dfe8e1a15997e02aebe565.jpg', { caption: 'HELLO 🎀' });
+});
+
+// Respond with a voice message
+bot.command('voice', (ctx) => {
+  ctx.replyWithVoice('https://github.com/Chanuka-KL/GawrGura-bot/raw/refs/heads/main/Pew.wav');
+});
+
+// React to messages
+bot.on('text', (ctx) => {
+  ctx.react('👍'); // Adds a thumbs up reaction
+});
+
+// Send a custom styled text with Markdown formatting
+bot.command('styled', (ctx) => {
+  ctx.replyWithMarkdown(
+    '*Welcome to GwarGura Bot!* \n _We can send images, voice messages, and more!_ \n **Enjoy!**',
+    { parse_mode: 'MarkdownV2' }
+  );
+});
+
+// Inline query (Optional: You can extend this feature if needed)
+bot.on('inline_query', (ctx) => {
+  ctx.answerInlineQuery([
+    {
+      type: 'article',
+      id: '1',
+      title: 'Check this out!',
+      input_message_content: { message_text: 'This is an inline message!' }
+    }
+  ]);
+});
+
+// Start the bot
 bot.launch();
+console.log('Bot is running...');
