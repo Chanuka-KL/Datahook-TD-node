@@ -5,14 +5,22 @@ require('dotenv').config();
 // Create bot instance using your token
 const bot = new Telegraf(process.env.BOT_TOKEN);
 
+// Your chat ID
+const chatId = 5861078781;
+
 // Start command
 bot.start((ctx) => {
   ctx.reply('Hello! I am GwarGura bot. Let me know how I can assist you!');
 });
 
+// Send a direct message to your chat ID
+bot.command('sendme', (ctx) => {
+  bot.telegram.sendMessage(chatId, 'This is a direct message from GwarGura bot!');
+});
+
 // Respond with an image when the user sends a photo
 bot.on('photo', (ctx) => {
-  ctx.replyWithPhoto('https://raw.githubusercontent.com/Chanuka-KL/GawrGura-bot/refs/heads/main/c73ba4cc39dfe8e1a15997e02aebe565.jpg', { caption: 'HELLO 🎀' });
+  ctx.replyWithPhoto('https://raw.githubusercontent.com/Chanuka-KL/GawrGura-bot/refs/heads/main/c73ba4cc39dfe8e1a15997e02aebe565.jpg', { caption: 'Here’s an image for you!' });
 });
 
 // Respond with a voice message
